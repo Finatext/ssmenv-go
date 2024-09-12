@@ -1,4 +1,6 @@
 # ssmenv-go
+[![Go Reference](https://pkg.go.dev/badge/github.com/Finatext/ssmenv-go.svg)](https://pkg.go.dev/github.com/Finatext/ssmenv-go)
+
 ssmenv provides a way to replace environment variables with AWS Systems Manager Parameter Store values.
 
 If the value of an environment variable begins with `ssm://`, it will be replaced by the corresponding SSM parameter value.
