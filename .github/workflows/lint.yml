@@ -1,0 +1,24 @@
+name: Lint
+on: [pull_request]
+
+permissions:
+  contents: read
+  # Optional: allow read access to pull request. Use with `only-new-issues` option.
+  pull-requests: write
+
+jobs:
+  lint:
+    if: github.event.pull_request.draft == false
+    name: Run lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: golangci-lint
+        uses: reviewdog/action-golangci-lint@7708105983c614f7a2725e2172908b7709d1c3e4 # v2.6.2
+        with:
+          github_token: ${{ github.token }}
+          level: error
+          fail_on_error: true
+          reporter: github-pr-check
+          tool_name: golangci-lint
+          go_version_file: go.mod

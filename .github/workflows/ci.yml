@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  # By default, a workflow only runs when a pull_request event's activity type is opened, synchronize, or reopened.
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
+  # So we add default event types and ready_for_review type here.
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+
+jobs:
+  test:
+    if: github.event.pull_request.draft == false
+    name: Run test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
+        with:
+          go-version-file: go.mod
+      - name: build
+        run: go build -v ./...
+      - name: test
+        run: go test -v ./...
